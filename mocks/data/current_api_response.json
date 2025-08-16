@@ -1,0 +1,126 @@
+{
+  "data": [
+    {
+      "id": "693e1306-a41c-464e-8fe5-e762034796f1",
+      "title": "American AI Companies Open Up To Counter China",
+      "description": "American AI Companies Open Up To Counter China\nAuthored by Catherine Yang via The Epoch Times (emphasis ours),\nOpenAI on Aug. 5 released two open-weight language models, the company's first such release since GPT-2 in 2019.\nThis illustration photograph shows screens displaying the logo of DeepSeek, ...",
+      "url": "https://www.zerohedge.com/ai/american-ai-companies-open-counter-china",
+      "author": "Tyler Durden",
+      "image": "None",
+      "language": "en",
+      "category": ["business", "finance"],
+      "published": "2025-08-10 02:10:00 +0000"
+    },
+    {
+      "id": "3183e81b-528c-4069-a3ec-59ae9186203e",
+      "title": "Banana Pi BPI-F4 - An industrial Edge AI SBC powered by Sunplus SP7350 SoC with 4.1 TOPS NPU - CNX Software",
+      "description": "The Banana Pi BPI-F4 is a compact industrial-grade Edge AI development board built around the Sunplus SP7350 quad-core Cortex-A55 SoC with a 4.1 TOPS NPU.",
+      "url": "https://www.cnx-software.com/2025/08/09/banana-pi-bpi-f4-an-industrial-edge-ai-sbc-powered-by-sunplus-sp7350-soc-with-4-1-tops-npu/",
+      "author": "Debashis Das",
+      "image": "https://www.cnx-software.com/wp-content/uploads/2025/08/Banana-Pi-BPI-F4-industrial-Edge-AI-SBC.jpg",
+      "language": "en",
+      "category": ["technology"],
+      "published": "2025-08-09 03:11:20 +0000"
+    },
+    {
+      "id": "ed0e7c69-4c6c-409e-a42a-47e9509c5fcf",
+      "title": "Redis-Powered Multi-Agent AI Workflow: Orchestrating Claude Code Instances for Concurrent Software Development",
+      "description": "This is a submission for the Redis AI Challenge: Real-Time AI Innovators.\n\n \n \n What I Built\n\nI created a Redis-powered multi-agent workflow system that enables multiple AI coding agents (Claude Code instances) to collaborate on complex software development projects without conflicts or duplicate wo...",
+      "url": "https://dev.to/fooooorrest/redis-powered-multi-agent-ai-workflow-orchestrating-claude-code-instances-for-concurrent-software-dbh",
+      "author": "forrest",
+      "image": "None",
+      "language": "en",
+      "category": ["programming"],
+      "published": "2025-08-09 03:08:57 +0000"
+    },
+    {
+      "id": "e0410d58-ee83-494d-b2c5-212c272676d9",
+      "title": "Prosecutors in Thailand issue indictments for dozens in deadly building collapse",
+      "description": "State prosecutors in Thailand have formally indicted 23 individuals and companies on charges related to the collapse of a Bangkok office building that collapsed after an earthquake, killing at least 92 people. The partially built high-rise, which was to house the new State Audit Office, was the only...",
+      "url": "https://www.sfgate.com/news/world/article/prosecutors-in-thailand-issue-indictments-for-20806653.php",
+      "author": "sfgate",
+      "image": "None",
+      "language": "en",
+      "category": ["regional"],
+      "published": "2025-08-07 13:18:16 +0000"
+    },
+    {
+      "id": "d5a73ef5-7e1b-4b0f-9ae9-2c53c7d86299",
+      "title": "Taiwan holds the key to AI development; Boris Johnson urges West to protect democratic supply chains",
+      "description": "In a keynote address delivered in Taipei on August 5, former UK Prime Minister Boris Johnson underscored Taiwan's critical importance to global supply chains, particularly in the semiconductor sector. He called on Western democracies to stand firmly with Taiwan amid rising geopolitical tensions and ...",
+      "url": "https://www.digitimes.com/news/a20250806PD217/taiwan-ai-ukraine-russia.html",
+      "author": "Bryan Chuang, Taipei; Willis Ke, DIGITIMES Asia",
+      "image": "https://img.digitimes.com/newsshow/20250806pd217_files/2_b.jpg",
+      "language": "en",
+      "category": ["technology"],
+      "published": "2025-08-06 04:15:17 +0000"
+    },
+    {
+      "id": "1ff849b7-eed6-4098-a9e0-7dc58f23f9de",
+      "title": "Secure at Inception: Introducing New Tools for Securing AI-Native Development",
+      "description": "At Snyk, we believe you should never have to choose between speed and security. As the age of AI transforms software development, our goal is to extend our developer-first security approach to this new era, providing the essential tools your teams need to build with confidence.\u00a0\nToday at Black Hat, ...",
+      "url": "https://dev.to/snyk/secure-at-inception-introducing-new-tools-for-securing-ai-native-development-25kf",
+      "author": "SnykSec",
+      "image": "None",
+      "language": "en",
+      "category": ["programming"],
+      "published": "2025-08-05 02:00:35 +0000"
+    },
+    {
+      "id": "d2079e65-32a4-4355-9d8b-14c5dcc6e08c",
+      "title": "EU Awards \u20ac1.5M Grant to AIxBlock, With \u20ac61.5M More in the Pipeline",
+      "description": "EU backs AIxBlock's mission to decentralize AI development and automate infrastructure workflows\u2014starting with a \u20ac1.5M grant and \u20ac61.5M in non-dilutive funding pipeline CALIFORNIA, Aug. 04, 2025 (GLOBE NEWSWIRE) --",
+      "url": "https://www.benzinga.com/pressreleases/25/08/g46834009/eu-awards-1-5m-grant-to-aixblock-with-61-5m-more-in-the-pipeline",
+      "author": "Globe Newswire",
+      "image": "/next-assets/images/schema-image-default.png",
+      "language": "en",
+      "category": ["finance"],
+      "published": "2025-08-04 17:00:00 +0000"
+    },
+    {
+      "id": "a8fcf605-535a-42c1-8f17-aec1f34ea318",
+      "title": "Fine-Tuning LLMs Locally Using MLX LM: A Comprehensive Guide",
+      "description": "Fine-tuning large language models has traditionally required expensive cloud GPU resources and complex infrastructure setups. Apple's MLX framework changes this paradigm by enabling efficient local fine-tuning on Apple Silicon hardware using advanced techniques like LoRA and QLoRA.\nIn this comprehen...",
+      "url": "https://dzone.com/articles/fine-tuning-llms-locally-using-mlx-lm-guide",
+      "author": "Aditya Karnam Gururaj Rao",
+      "image": "None",
+      "language": "en",
+      "category": ["programming"],
+      "published": "2025-08-04 17:00:00 +0000"
+    },
+    {
+      "id": "7e9f7976-c4d3-4378-9c60-dca5fecbe542",
+      "title": "How AI Is Transforming Stock Trading For Retail Investors",
+      "description": "Artificial Intelligence is leveling the playing field for retail investors, bringing once-exclusive trading tools into everyday hands. From real-time sentiment analysis to personalized portfolio automation, AI is redefining how individuals engage with the stock market. This article explores the tech...",
+      "url": "https://www.benzinga.com/fintech/25/08/46829005/how-ai-is-transforming-stock-trading-for-retail-investors",
+      "author": "Arjun Solanki",
+      "image": "https://cdn.benzinga.com/files/images/story/2025/08/04/ChatGPT-Image-Jul-29--2025-at-12-13-07-P.png?width=1200&height=800&fit=crop",
+      "language": "en",
+      "category": ["finance"],
+      "published": "2025-08-04 14:29:32 +0000"
+    },
+    {
+      "id": "94cb520d-9aa6-498c-bf50-47dea0517ca4",
+      "title": "UK needs bit barns to lead AI deployment, says Blair group",
+      "description": ": Let US and China compete in the AI development arms race, says former Brit PM's non-profit org",
+      "url": "https://www.theregister.com/2025/08/04/tony_blair_institute_says_uk/",
+      "author": "Dan Robinson",
+      "image": "https://regmedia.co.uk/2025/04/04/shutterstock_tony_blair_ai.jpg",
+      "language": "en",
+      "category": ["programming"],
+      "published": "2025-08-04 12:20:32 +0000"
+    },
+    {
+      "id": "56a03d82-30e1-4999-9a56-95e266b9e6d2",
+      "title": "Duolingo CEO acknowledges user growth impacted by AI-first comments",
+      "description": "Duolingo's CEO opens up about the recent AI controversy that sparked social media outrage, sharing insights on how it affected the company's growth and what steps were taken to address user concerns.",
+      "url": "https://www.bizjournals.com/pittsburgh/news/2025/08/06/duolingo-ceo-says-user-growth-lower-end.html?ana=brss_1566",
+      "author": "bizjournals",
+      "image": "None",
+      "language": "en",
+      "category": ["business", "pittsburgh", "pennsylvania"],
+      "published": "2025-08-06 22:58:30 +0000"
+    }
+  ],
+  "count": 11
+}
