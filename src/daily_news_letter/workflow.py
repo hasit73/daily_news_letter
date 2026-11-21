@@ -1,9 +1,9 @@
-from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import END, StateGraph
 
 from daily_news_letter import agents
-from daily_news_letter.models import NewsExtractorState
 from daily_news_letter.common import Nodes
-from langgraph.checkpoint.memory import MemorySaver
+from daily_news_letter.models import NewsExtractorState
 
 
 def create_workflow():
@@ -15,9 +15,7 @@ def create_workflow():
 
     # News aggregator nodes and edges
     builder.add_node(Nodes.COLLECT_NEWS, agents.collect_news)
-    builder.add_node(
-        Nodes.COLLECT_NEWS_FROM_NEWS_API_ORG, agents.collect_news_from_news_api_org
-    )
+    builder.add_node(Nodes.COLLECT_NEWS_FROM_NEWS_API_ORG, agents.collect_news_from_news_api_org)
     builder.add_node(
         Nodes.COLLECT_NEWS_FROM_CURRENT_NEWS_API,
         agents.collect_news_from_current_news_api,

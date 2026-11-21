@@ -1,5 +1,4 @@
 from conftest import make_enriched
-
 from daily_news_letter.agents.message_formatter import format_whatsapp_messages
 from daily_news_letter.common import MAX_MESSAGE_CHAR_LIMIT, MESSAGE_SEPARATOR
 
@@ -41,9 +40,9 @@ def test_oversized_article_is_truncated_not_dropped():
 
 
 def test_plain_text_is_not_html_escaped():
-    [[text]] = _format([make_enriched(headline="R&D <update>", content="AT&T's \"plan\"")])
+    [[text]] = _format([make_enriched(headline="R&D <update>", content='AT&T\'s "plan"')])
     assert "R&D <update>" in text
-    assert "AT&T's \"plan\"" in text
+    assert 'AT&T\'s "plan"' in text
     assert "&amp;" not in text
 
 

@@ -41,9 +41,7 @@ class _FakeStructuredLLM:
     def invoke(self, messages):
         self.calls.append(messages)
         articles = [
-            json.loads(line)
-            for line in messages[-1].content.splitlines()
-            if line.startswith("{")
+            json.loads(line) for line in messages[-1].content.splitlines() if line.startswith("{")
         ]
         return OutputEnrichedNewsArticleList(
             enriched_news=[EnrichedNewsArticle(**a, category="Tech") for a in articles]

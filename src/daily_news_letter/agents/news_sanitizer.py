@@ -1,9 +1,9 @@
+from daily_news_letter.common import normalize_datetime, sanitize_html
 from daily_news_letter.models import NewsAggregationState
-from daily_news_letter.common import sanitize_html, normalize_datetime
 
 
 def sanitize_news(state: NewsAggregationState):
-    """Sanitize news article content (headline, sub headline, and content) to remove any HTML tags and standardize datetime format."""
+    """Convert headline, sub-headline and content to plain text and normalize dates to UTC."""
     if not state.get("news"):
         return {"sanitized_news": []}
     news = state["news"]

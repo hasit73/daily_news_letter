@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-from typing import List
 
 import requests
 
@@ -19,7 +18,7 @@ class NewsApiSearch:
     BASE_URL = "https://newsapi.org/v2/everything"
 
     @staticmethod
-    def build_search_query(search_queries: List[str]) -> str:
+    def build_search_query(search_queries: list[str]) -> str:
         """Combine queries into one NewsAPI expression: words within a query are
         AND-ed, queries are OR-ed, e.g. (recent AND AI) OR (top AND news)."""
         clauses = []
@@ -29,7 +28,7 @@ class NewsApiSearch:
                 clauses.append("(" + " AND ".join(words) + ")")
         return " OR ".join(clauses)
 
-    def get_news(self, queries: List[str], page_size: int = 5) -> dict:
+    def get_news(self, queries: list[str], page_size: int = 5) -> dict:
         if common.use_mock_data():
             return MOCK_NEWS_API_RESPONSE
         params = {
@@ -98,9 +97,7 @@ def send_message(message: str) -> requests.Response:
     return requests.post(
         f"https://graph.facebook.com/v22.0/{sender_id}/messages",
         # Token goes in a header, not the URL, so it never ends up in logs.
-        headers={
-            "Authorization": f"Bearer {common.require_env('WHATSAPP_API_ACCESS_TOKEN')}"
-        },
+        headers={"Authorization": f"Bearer {common.require_env('WHATSAPP_API_ACCESS_TOKEN')}"},
         json={
             "messaging_product": "whatsapp",
             "to": common.require_env("WHATSAPP_RECIPIENT_NUMBER"),

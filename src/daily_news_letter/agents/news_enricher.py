@@ -1,13 +1,14 @@
-from daily_news_letter.models import NewsExtractorState, OutputEnrichedNewsArticleList
+from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.types import Send
-from langchain_core.messages import SystemMessage, HumanMessage
-from daily_news_letter.llm import get_llm
+
 from daily_news_letter.common import Nodes
+from daily_news_letter.llm import get_llm
+from daily_news_letter.models import NewsExtractorState, OutputEnrichedNewsArticleList
 from daily_news_letter.prompts import NEWS_ENRICHMENT_PROMPT
 
 
 def enrich_news_router(state: NewsExtractorState):
-    """Workflow router responsible to parallelize news enrichment task, divide news in batches and send each batch to news enricher."""
+    """Split selected news into batches and fan them out to parallel enricher nodes."""
     news = state["sanitized_news"]
     BATCH_SIZE = 5
     batches = []
@@ -15,11 +16,7 @@ def enrich_news_router(state: NewsExtractorState):
         batches.append(
             Send(
                 Nodes.NEWS_ENRICHER,
-                {
-                    "news_batch": news[
-                        batch_start_index : batch_start_index + BATCH_SIZE
-                    ]
-                },
+                {"news_batch": news[batch_start_index : batch_start_index + BATCH_SIZE]},
             )
         )
     return batches
@@ -28,9 +25,7 @@ def enrich_news_router(state: NewsExtractorState):
 def news_enricher(state: NewsExtractorState):
     """Rewrite one batch of articles with the LLM and assign each a category."""
     news_batch = state["news_batch"]
-    news_list_str = "\n".join(
-        [news_article.model_dump_json() for news_article in news_batch]
-    )
+    news_list_str = "\n".join([news_article.model_dump_json() for news_article in news_batch])
     news_articles = f"""News List : \n{news_list_str}"""
 
     structured_llm = get_llm().with_structured_output(OutputEnrichedNewsArticleList)

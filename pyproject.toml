@@ -40,3 +40,16 @@ where = ["src"]
 testpaths = ["tests"]
 pythonpath = ["tests"]
 addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# Prompt text is sent verbatim to the LLM; don't reflow it for line length.
+"src/daily_news_letter/prompts.py" = ["E501"]

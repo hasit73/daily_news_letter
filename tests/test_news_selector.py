@@ -1,5 +1,4 @@
 from conftest import make_article
-
 from daily_news_letter.agents.news_selector import MAX_SELECTED_NEWS, news_selector
 
 

@@ -24,9 +24,7 @@ def _news_api_article(**overrides):
 @pytest.fixture
 def news_api_returns(monkeypatch):
     def _set(articles):
-        monkeypatch.setattr(
-            api.NewsApiSearch, "get_news", lambda self, queries: {"data": articles}
-        )
+        monkeypatch.setattr(api.NewsApiSearch, "get_news", lambda self, queries: {"data": articles})
 
     return _set
 
