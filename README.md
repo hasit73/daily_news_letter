@@ -1,6 +1,8 @@
 # Daily AI Newsletter Agent 🤖📰
 
-An intelligent AI-powered system that automatically generates and delivers personalized daily newsletters focused on AI and technology trends directly to your WhatsApp.
+[![CI](https://github.com/hasit73/daily_news_letter/actions/workflows/ci.yml/badge.svg)](https://github.com/hasit73/daily_news_letter/actions/workflows/ci.yml)
+
+A LangGraph multi-agent pipeline that collects the latest AI, technology and India news from multiple sources, rewrites it with Google Gemini for readability, and delivers it as a daily digest to WhatsApp.
 
 ## 🌟 Overview
 
@@ -9,24 +11,26 @@ This project leverages **LangGraph** to create a sophisticated multi-agent workf
 - 🔍 Intelligently searches for the latest AI and technology news
 - 🧹 Sanitizes and processes news content
 - ✨ Enriches articles using AI for better readability
-- 📱 Formats and delivers personalized newsletters via WhatsApp
+- 📱 Formats and delivers the newsletter via WhatsApp
 
 ## 🚀 Key Features
 
 - **Multi-Source News Aggregation**: Fetches news from NewsAPI.org and CurrentsAPI
 - **AI-Powered Content Enhancement**: Uses Google Gemini to improve article quality and readability
-- **Smart Content Filtering**: Automatically selects the most relevant and recent articles
+- **Content Filtering**: Dedupes stories across sources and keeps the most recent articles
 - **WhatsApp Integration**: Delivers formatted newsletters directly to your phone
 - **Workflow Orchestration**: Built with LangGraph for robust agent coordination
-- **Mock Data Support**: Development-friendly with mock data capabilities
+- **Parallel Execution**: News sources are queried concurrently and enrichment runs in parallel batches
+- **Mock Data Support**: Bundled API responses for development without news API keys
 
 ## 🏗️ Architecture
 
 The system uses a **multi-agent architecture** with the following components:
 
 ```
-Search Query Builder → News Collector → News Aggregator →
-Sanitizer → Selector → Enricher → WhatsApp Formatter → Delivery
+Search Query Builder → News Collector ─┬─ NewsAPI.org ─┬→ Aggregator → Sanitizer → Selector
+                                       └─ CurrentsAPI ─┘
+  → Enricher (parallel batches) → WhatsApp Formatter → Delivery
 ```
 
 Here is detailed **[architecture](docs/architecture.md)**.
@@ -43,7 +47,7 @@ Here is detailed **[architecture](docs/architecture.md)**.
 ## 📋 Prerequisites
 
 - Python 3.10+
-- WhatsApp Business API access
+- WhatsApp Cloud API access (Meta developer account)
 - News API keys (NewsAPI.org, CurrentsAPI)
 - Google Gemini API key
 
@@ -92,12 +96,48 @@ WHATSAPP_RECIPIENT_NUMBER=recipient_phone_number
 USE_MOCK_DATA=false
 ```
 
-## 🎯 Use Cases
+## 🧪 Development
 
-- **Daily AI Updates**: Stay informed about the latest AI breakthroughs
-- **Technology Trends**: Get curated tech news delivered automatically
-- **Personal News Assistant**: Receive personalized newsletters on your schedule
-- **Research Tool**: Automated content aggregation for AI researchers
+```bash
+pip install -e ".[dev]"
+pytest              # offline test suite, no API keys needed
+ruff check .        # lint
+ruff format .       # format
+```
+
+The tests replace Gemini with a fake LLM and run against the bundled mock API responses, so they
+need no network access. CI runs lint and tests on Python 3.10–3.12 for every push and pull request.
+
+To try the pipeline without news API keys, set `USE_MOCK_DATA=true`. This uses the bundled
+responses in `src/daily_news_letter/mocks/data/` and skips the search-query LLM call. Enrichment
+still uses Gemini, and the result is still sent to WhatsApp.
+
+## 📁 Project Structure
+
+```
+src/daily_news_letter/
+├── workflow.py          # LangGraph graph definition
+├── run.py               # Entry point: run graph, send messages
+├── agents/              # One module per graph node
+├── api.py               # NewsAPI, Currents and WhatsApp clients
+├── llm.py               # Gemini client
+├── models.py            # Pydantic models and graph state
+├── prompts.py           # LLM prompts and message template
+├── common.py            # Config, sanitization and date helpers
+└── mocks/               # Mock API responses for development
+tests/                   # pytest suite
+docs/architecture.md     # Detailed design notes
+```
+
+## 🗺️ Roadmap
+
+- Retries with backoff for LLM and news API calls
+- Structured logging instead of `print`
+- Remember previously sent stories so they aren't repeated on later days
+- Configurable interests and sources instead of hard-coded prompts
+- Additional delivery channels (email, Telegram)
+- Built-in scheduling and a Docker image for deployment
+- Dry-run mode that prints the newsletter instead of sending it
 
 ## 🙏 Acknowledgments
 
