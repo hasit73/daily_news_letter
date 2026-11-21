@@ -40,5 +40,5 @@ class NewsExtractorState(TypedDict):
     news: Annotated[List[NewsArticle], operator.add]
     sanitized_news: List[NewsArticle]
     enriched_news: Annotated[List[EnrichedNewsArticle], operator.add]
-    output_messages: List[str]
+    output_messages: List[List[str]]
     formatted_news: Annotated[List[str], operator.add]

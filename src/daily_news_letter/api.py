@@ -1,122 +1,111 @@
+from datetime import datetime, timedelta, timezone
 from typing import List
 
-from datetime import datetime, timezone, timedelta
 import requests
-import os
-from datetime import timezone
-from daily_news_letter.mocks import MOCK_CURRENT_API_RESPONSE, MOCK_NEWS_API_RESPONSE
+
 from daily_news_letter import common
+from daily_news_letter.mocks import MOCK_CURRENT_API_RESPONSE, MOCK_NEWS_API_RESPONSE
+
+LOOKBACK_DAYS = 7
+
+
+def _from_datetime() -> str:
+    return (datetime.now(timezone.utc) - timedelta(days=LOOKBACK_DAYS)).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
 
 
 class NewsApiSearch:
-    BASE_URL = "https://newsapi.org/v2/{endpoint}?q={search_query}&pageSize={page_size}&searchIn=title,description&from={from_datetime}"
+    BASE_URL = "https://newsapi.org/v2/everything"
 
-    def __init__(self):
-        pass
+    @staticmethod
+    def build_search_query(search_queries: List[str]) -> str:
+        """Combine queries into one NewsAPI expression: words within a query are
+        AND-ed, queries are OR-ed, e.g. (recent AND AI) OR (top AND news)."""
+        clauses = []
+        for query in search_queries:
+            words = query.split()
+            if words:
+                clauses.append("(" + " AND ".join(words) + ")")
+        return " OR ".join(clauses)
 
-    def build_search_query(self, search_queries: List[str]):
-        return " OR ".join([" OR ".join(query.split()) for query in search_queries])
-
-    @property
-    def from_datetime(self):
-        return (
-            (datetime.now() - timedelta(days=7))
-            .astimezone(timezone.utc)
-            .strftime("%Y-%m-%dT%H:%M:%SZ")
-        )
-
-    def get_news(
-        self,
-        queries: List[str],
-        page_size: int = 5,
-    ):
-        search_query = self.build_search_query(queries)
-        url = NewsApiSearch.BASE_URL.format(
-            endpoint="everything",
-            search_query=search_query,
-            page_size=page_size,
-            from_datetime=self.from_datetime,
-        )
-        if common.USE_MOCK_DATA:
+    def get_news(self, queries: List[str], page_size: int = 5) -> dict:
+        if common.use_mock_data():
             return MOCK_NEWS_API_RESPONSE
-        print("📰 Fetching news from ", url)
-        response = requests.get(url, headers={"X-Api-Key": os.getenv("NEWS_API_ORG")})
-        response_json = response.json()
-        return {
-            "data": response_json.get("articles"),
-            "count": response_json.get("totalResults"),
+        params = {
+            "q": self.build_search_query(queries),
+            "pageSize": page_size,
+            "searchIn": "title,description",
+            "from": _from_datetime(),
         }
+        print("📰 Fetching news from", self.BASE_URL, params)
+        response = requests.get(
+            self.BASE_URL,
+            params=params,
+            headers={"X-Api-Key": common.require_env("NEWS_API_ORG")},
+            timeout=common.REQUEST_TIMEOUT_SECONDS,
+        )
+        response.raise_for_status()
+        response_json = response.json()
+        articles = response_json.get("articles") or []
+        return {"data": articles, "count": response_json.get("totalResults", 0)}
 
 
 class CurrentNewsApiSearch:
-    BASE_URL = "https://api.currentsapi.services/v1/search?keywords={search_query}&page_size={page_size}&limit={page_size}&start_date={from_datetime}"
+    BASE_URL = "https://api.currentsapi.services/v1"
+    AI_QUERIES = ("ai development", "ai controversy")
 
-    def __init__(self):
-        pass
-
-    @property
-    def from_datetime(self):
-        return (
-            (datetime.now() - timedelta(days=7))
-            .astimezone(timezone.utc)
-            .strftime("%Y-%m-%dT%H:%M:%SZ")
-        )
-
-    def get_news(
-        self,
-        search_query: str,
-        page_size: int = 5,
-    ):
-        url = CurrentNewsApiSearch.BASE_URL.format(
-            search_query=search_query,
-            page_size=page_size,
-            from_datetime=self.from_datetime,
-        )
-        if common.USE_MOCK_DATA:
-            return MOCK_CURRENT_API_RESPONSE
-        print("📰 Fetching news from ", url)
+    def _get(self, endpoint: str, params: dict | None = None) -> dict:
+        url = f"{self.BASE_URL}/{endpoint}"
+        print("📰 Fetching news from", url, params or "")
         response = requests.get(
-            url, headers={"Authorization": os.getenv("CURRENT_API_SERVICES")}
+            url,
+            params=params,
+            headers={"Authorization": common.require_env("CURRENT_API_SERVICES")},
+            timeout=common.REQUEST_TIMEOUT_SECONDS,
         )
-        response_json = response.json()
-        return {
-            "data": response_json.get("news"),
-            "count": len(response_json.get("news")),
-        }
+        response.raise_for_status()
+        news = response.json().get("news") or []
+        return {"data": news, "count": len(news)}
 
-    def get_ai_news(self):
-        queries = ["ai development", "ai controversy"]
-        results = {"data": []}
-        for query in queries:
-            data = self.get_news(query)
-            results["data"] += data.get("data", [])
-        results["count"] = len(results["data"])
-        return results
-
-    def get_latest_news(self):
-        url = "https://api.currentsapi.services/v1/latest-news"
-        if common.USE_MOCK_DATA:
+    def get_news(self, search_query: str, page_size: int = 5) -> dict:
+        if common.use_mock_data():
             return MOCK_CURRENT_API_RESPONSE
-        print("📰 Fetching latest news from ", url)
-        response = requests.get(
-            url, headers={"Authorization": os.getenv("CURRENT_API_SERVICES")}
+        return self._get(
+            "search",
+            {
+                "keywords": search_query,
+                "page_size": page_size,
+                "start_date": _from_datetime(),
+            },
         )
-        response_json = response.json()
-        return {
-            "data": response_json.get("news"),
-            "count": len(response_json.get("news")),
-        }
+
+    def get_ai_news(self) -> dict:
+        results = []
+        for query in self.AI_QUERIES:
+            results += self.get_news(query).get("data", [])
+        return {"data": results, "count": len(results)}
+
+    def get_latest_news(self) -> dict:
+        if common.use_mock_data():
+            return MOCK_CURRENT_API_RESPONSE
+        return self._get("latest-news")
 
 
-def send_message(message: str):
-    resp = requests.post(
-        f"https://graph.facebook.com/v22.0/{os.getenv('WHATSAPP_SENDER_ACCOUNT_ID')}/messages?access_token="
-        + os.environ.get("WHATSAPP_API_ACCESS_TOKEN"),
+def send_message(message: str) -> requests.Response:
+    """Send a plain-text WhatsApp message via the WhatsApp Cloud API."""
+    sender_id = common.require_env("WHATSAPP_SENDER_ACCOUNT_ID")
+    return requests.post(
+        f"https://graph.facebook.com/v22.0/{sender_id}/messages",
+        # Token goes in a header, not the URL, so it never ends up in logs.
+        headers={
+            "Authorization": f"Bearer {common.require_env('WHATSAPP_API_ACCESS_TOKEN')}"
+        },
         json={
             "messaging_product": "whatsapp",
-            "to": os.getenv("WHATSAPP_RECIPIENT_NUMBER"),
+            "to": common.require_env("WHATSAPP_RECIPIENT_NUMBER"),
             "type": "text",
             "text": {"body": message, "preview_url": False},
         },
+        timeout=common.REQUEST_TIMEOUT_SECONDS,
     )
-    return resp

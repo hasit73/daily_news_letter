@@ -19,7 +19,7 @@ def main() -> None:
         message = "\n\n".join(message_sections)
         resp = send_message(message)
         if not resp.ok:
-            print("Error in sending msg : ", resp.json())
+            print(f"Error sending message ({resp.status_code}): {resp.text}")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 from daily_news_letter.models import NewsExtractorState, OutputEnrichedNewsArticleList
-from langgraph.constants import Send
+from langgraph.types import Send
 from langchain_core.messages import SystemMessage, HumanMessage
-from daily_news_letter.llm import gemini_llm
+from daily_news_letter.llm import get_llm
 from daily_news_letter.common import Nodes
 from daily_news_letter.prompts import NEWS_ENRICHMENT_PROMPT
 
@@ -26,14 +26,15 @@ def enrich_news_router(state: NewsExtractorState):
 
 
 def news_enricher(state: NewsExtractorState):
+    """Rewrite one batch of articles with the LLM and assign each a category."""
     news_batch = state["news_batch"]
     news_list_str = "\n".join(
         [news_article.model_dump_json() for news_article in news_batch]
     )
     news_articles = f"""News List : \n{news_list_str}"""
 
-    structed_llm = gemini_llm.with_structured_output(OutputEnrichedNewsArticleList)
-    response = structed_llm.invoke(
+    structured_llm = get_llm().with_structured_output(OutputEnrichedNewsArticleList)
+    response = structured_llm.invoke(
         [
             SystemMessage(NEWS_ENRICHMENT_PROMPT),
             HumanMessage(f"Here is list of news articles:\n {news_articles}"),

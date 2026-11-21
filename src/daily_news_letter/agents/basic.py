@@ -2,7 +2,10 @@ from daily_news_letter.models import NewsAggregationState
 
 
 def news_aggregator(state: NewsAggregationState) -> NewsAggregationState:
-    """Placeholder node which does nothing special, just return aggregated news."""
-    news = state["news"]
-    print("📋 Collected total news records : ", len(news))
-    return {"news": state["news"]}
+    """Join point for the parallel collectors.
+
+    `news` uses an `operator.add` reducer, so the collectors' results are already
+    merged here. Returning `news` again would append the list to itself.
+    """
+    print("📋 Collected total news records : ", len(state["news"]))
+    return {}
