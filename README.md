@@ -131,13 +131,15 @@ docs/architecture.md     # Detailed design notes
 
 ## 🗺️ Roadmap
 
-- Retries with backoff for LLM and news API calls
-- Structured logging instead of `print`
-- Remember previously sent stories so they aren't repeated on later days
-- Configurable interests and sources instead of hard-coded prompts
-- Additional delivery channels (email, Telegram)
-- Built-in scheduling and a Docker image for deployment
-- Dry-run mode that prints the newsletter instead of sending it
+Planned work is tracked in [GitHub Issues](https://github.com/hasit73/daily_news_letter/issues):
+
+- Retries with backoff for LLM and news API calls ([#1](https://github.com/hasit73/daily_news_letter/issues/1))
+- Structured logging instead of `print` ([#2](https://github.com/hasit73/daily_news_letter/issues/2))
+- Remember previously sent stories so they aren't repeated on later days ([#3](https://github.com/hasit73/daily_news_letter/issues/3))
+- Configurable interests and sources instead of hard-coded prompts ([#4](https://github.com/hasit73/daily_news_letter/issues/4))
+- Additional delivery channels (email, Telegram) ([#5](https://github.com/hasit73/daily_news_letter/issues/5))
+- Built-in scheduling and a Docker image for deployment ([#6](https://github.com/hasit73/daily_news_letter/issues/6))
+- Dry-run mode that prints the newsletter instead of sending it ([#7](https://github.com/hasit73/daily_news_letter/issues/7))
 
 ## 🙏 Acknowledgments
 
