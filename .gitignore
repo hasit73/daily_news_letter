@@ -21,4 +21,7 @@ coverage.xml
 *.log
 .DS_Store
 .vscode/
-.idea/"
+.idea/
+*.egg-info/
+build/
+dist/

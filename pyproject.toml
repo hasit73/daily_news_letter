@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "daily-news-letter"
+version = "0.1.0"
+description = "AI-powered daily newsletter agent built on LangGraph that delivers curated tech and AI news to WhatsApp"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Hasit Parmar" }]
+dependencies = [
+    "langgraph>=0.5.3,<0.6",
+    "langchain>=0.3.26,<0.4",
+    "langchain-core>=0.3.68,<0.4",
+    "langchain-google-genai>=2.1.6,<3",
+    "pydantic>=2.11,<3",
+    "python-dotenv>=1.1",
+    "html-sanitizer>=2.6",
+    "python-dateutil>=2.9",
+    "jinja2>=3.1.6",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+daily-news-letter = "daily_news_letter.run:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"daily_news_letter.mocks" = ["data/*.json"]

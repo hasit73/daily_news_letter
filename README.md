@@ -42,30 +42,33 @@ Here is detailed **[architecture](docs/architecture.md)**.
 
 ## 📋 Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - WhatsApp Business API access
 - News API keys (NewsAPI.org, CurrentsAPI)
 - Google Gemini API key
 
 ## 🛠️ Quick Start
 
-1. **Clone and Setup**
+1. **Clone and install**
 
    ```bash
+   git clone https://github.com/hasit73/daily_news_letter.git
    cd daily_news_letter
-   pip install -r requirements.txt
+   python -m venv .venv && source .venv/bin/activate
+   pip install -e ".[dev]"
    ```
 
-2. **Configure Environment**
+2. **Configure environment**
 
    ```bash
    cp .env.example .env
    # Edit .env with your API keys
    ```
 
-3. **Run the Newsletter**
+3. **Run the newsletter**
    ```bash
-   python -m daily_news_letter.run
+   daily-news-letter
+   # or: python -m daily_news_letter.run
    ```
 
 ## 🔧 Configuration
