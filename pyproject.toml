@@ -35,3 +35,8 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "daily_news_letter.mocks" = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+addopts = "-ra"
